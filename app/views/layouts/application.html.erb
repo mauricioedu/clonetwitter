@@ -11,6 +11,23 @@
 </head>
 <body>
 
+    <div class="right">
+      <% if user_signed_in? %>
+        Bem Vindo, <%= link_to current_user.display_name, "/profile" %>,
+        <%= link_to "Logout", destroy_user_session_path, method: 'DELETE' %>
+      <%else %>
+          Por favor
+            <%= link_to "Entrar", new_user_session_path %>
+          ou
+            <%= link_to "Novo Usuario", new_user_registration_path %>
+      <% end %>
+    </div>
+
+
+  <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+
+
 <%= yield %>
 
 </body>
