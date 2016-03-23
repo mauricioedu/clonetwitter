@@ -7,13 +7,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js"></script>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
     <div class="right">
       <% if user_signed_in? %>
-        Bem Vindo, <%= link_to current_user.display_name, "/profilecd " %>,
+        Bem Vindo, <%= link_to current_user.display_name, "/profile " %>,
         <%= link_to "Logout", destroy_user_session_path, method: 'DELETE' %>
       <%else %>
           Por favor
