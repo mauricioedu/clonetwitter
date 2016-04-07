@@ -5,7 +5,9 @@ import TweetStore from "./stores/TweetStore";
 import TweetActions from "./actions/TweetActions";
 TweetActions.getAllTweets();
 
-
+let getAppState = () => {
+  return { tweetsList: TweetStore.getAll() };
+}
 // let mockTweets = [
 //   { id: 1, name: "Rafael Lugli", body: "Hava a nice day" },
 //   { id: 2, name: "Rodolfo Lugli", body: "Hava a good day" },
@@ -16,7 +18,8 @@ class Main extends React.Component{
 
   constructor(props){
     super(props);
-    this.state = { tweetsList: [] }
+    this.state = getAppState();
+    this._onChange = this._onChange.bind(this);
   }
   // formattedTweests(tweetsList) {
   //   let formattedList = tweetsList.map(tweet =>{
@@ -27,27 +30,35 @@ class Main extends React.Component{
   //     tweetsList: formattedList
   //   };
   // }
-  addTweet(tweetToAdd) {
-    // $.post("/tweets", { body: tweetToAdd })
-    // .success( savedTweet => {
-    //   let newTweetsList = this.state.tweetsList;
-    //   newTweetsList.unshift( savedTweet );
-    //   this.setState(this.formattedTweests(newTweetsList));
-    // })
-    // .error(error => console.log(error));
-    //
-
-  }
+  // addTweet(tweetToAdd) {
+  //   $.post("/tweets", { body: tweetToAdd })
+  //   .success( savedTweet => {
+  //     let newTweetsList = this.state.tweetsList;
+  //     newTweetsList.unshift( savedTweet );
+  //     this.setState(this.formattedTweests(newTweetsList));
+  //   })
+  //   .error(error => console.log(error));
+  //
+  //
+  // }
   componentDidMount() {
+    TweetStore.addChangeListener(this._onChange);
     // $.ajax("/tweets")
     // .success(data => this.setState(this.formattedTweests(data)))
     // .error(error => console.log(error));
+  }
+  componentWillUnMount() {
+    TweetStore.removeChangeListener(this._onChange);
+  }
+  _onChange() {
+
+    this.setState(getAppState());
   }
 
   render() {
     return(
       <div className="container">
-        <TweetBox sendTweet={this.addTweet.bind(this)} />
+        <TweetBox />
         <TweetsList tweets={this.state.tweetsList} />
       </div>
     );
